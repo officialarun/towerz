@@ -97,19 +97,26 @@ export function ModelOptions({
       const anchor = trigger.current.getBoundingClientRect();
       const host = container.current.getBoundingClientRect();
       const stage = trigger.current.closest('.scene-area')?.getBoundingClientRect();
-      const left = Math.max(
-        12,
-        Math.min(
-          anchor.right - host.left - element.offsetWidth,
-          host.width - element.offsetWidth - 12,
-        ),
-      );
+      const mobile = isMobileViewport();
+      const left = mobile
+        ? Math.max(
+            8 - host.left,
+            Math.min(stage?.right ?? host.right, window.innerWidth) -
+              host.left -
+              element.offsetWidth -
+              8,
+          )
+        : Math.max(
+            12,
+            Math.min(
+              anchor.right - host.left - element.offsetWidth,
+              host.width - element.offsetWidth - 12,
+            ),
+          );
       const minimumTop = Math.max(8, (stage?.top ?? host.top) - host.top + 8);
       const above = anchor.top - host.top - element.offsetHeight - 12;
       const top =
-        isMobileViewport() || above >= minimumTop
-          ? Math.max(minimumTop, above)
-          : anchor.bottom - host.top + 12;
+        mobile || above >= minimumTop ? Math.max(minimumTop, above) : anchor.bottom - host.top + 12;
       element.style.left = `${left}px`;
       element.style.top = `${top}px`;
     }
