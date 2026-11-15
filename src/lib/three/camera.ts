@@ -13,7 +13,11 @@ import {
 } from './label-detail';
 export type SceneState = ReturnType<typeof useExplorer.getState>;
 export const sceneCameraFov = (s: SceneState, mobile: boolean) =>
-  s.camera.preset === 'comparison' ? STRUCTURAL_REFERENCE.camera.fov : mobile ? MOBILE_MODEL_FOV : MODEL_FOV;
+  s.camera.preset === 'comparison'
+    ? STRUCTURAL_REFERENCE.camera.fov
+    : mobile
+      ? MOBILE_MODEL_FOV
+      : MODEL_FOV;
 export function sceneCameraPose(s: SceneState, mobile: boolean, aspect = 1) {
   const floor = typeof s.floor === 'number' ? s.floor : 1;
   const y = BASE_HEIGHT + floor * FLOOR_HEIGHT + (s.exploded ? floor * 5 : 0);
@@ -92,9 +96,12 @@ export function sceneCameraPose(s: SceneState, mobile: boolean, aspect = 1) {
         (s.floor as number) * FLOOR_HEIGHT +
         (s.exploded ? (s.floor as number) * 5 : 0)
       : BASE_HEIGHT - 0.4;
-    const top = s.structuralReview && s.camera.preset === 'comparison' ? BASE_HEIGHT + FLOOR_HEIGHT * 2 : isolated
-      ? base + FLOOR_HEIGHT + 0.5
-      : ROOF_ELEVATION + 3.2 + (s.exploded ? (BUILDING.levels.length - 1) * 5 : 0);
+    const top =
+      s.structuralReview && s.camera.preset === 'comparison'
+        ? BASE_HEIGHT + FLOOR_HEIGHT * 2
+        : isolated
+          ? base + FLOOR_HEIGHT + 0.5
+          : ROOF_ELEVATION + 3.2 + (s.exploded ? (BUILDING.levels.length - 1) * 5 : 0);
     let distance = eye.distanceTo(center);
     for (const x of opposite ? [-12, 27] : context ? [-38, 38] : [-16.2, 13.3])
       for (const z of opposite ? [41, 59] : context ? [-9, 59] : [-7.5, 13.2])
@@ -122,10 +129,12 @@ export function projectSceneLabels(
   s: SceneState,
   target: THREE.Vector3,
   zoomReference: LabelZoomReference,
+  mobile = false,
 ) {
   const vector = new THREE.Vector3();
   const zoomRatio = sceneLabelZoom(camera, target, zoomReference);
   container.dataset.labelZoom = zoomRatio.toFixed(3);
+  const occupied: { left: number; right: number; top: number; bottom: number }[] = [];
   function place(
     selector: string,
     position: [number, number, number],
@@ -134,28 +143,72 @@ export function projectSceneLabels(
   ) {
     const el = container.querySelector<HTMLElement>(selector);
     if (!el) return;
-    const detail = labelDetail(zoomRatio, priority);
+    const detail = labelDetail(zoomRatio, priority, mobile);
     vector.set(...position).project(camera);
+    if (
+      !visible ||
+      !detail.visible ||
+      vector.z <= -1 ||
+      vector.z >= 1 ||
+      Math.abs(vector.x) >= 0.94 ||
+      Math.abs(vector.y) >= 0.92
+    ) {
+      el.style.display = 'none';
+      return;
+    }
+    // Restore hidden labels before measuring their footprint at the current zoom.
+    el.style.display = '';
     const halfWidth = (el.offsetWidth * detail.scale) / 2 + 8;
     const screenX = THREE.MathUtils.clamp(
       (vector.x * 0.5 + 0.5) * width,
       halfWidth,
       Math.max(halfWidth, width - halfWidth),
     );
-    el.style.transform = `translate(${screenX}px,${(-vector.y * 0.5 + 0.5) * height}px) translate(-50%,-50%) scale(${detail.scale})`;
+    const screenY = (-vector.y * 0.5 + 0.5) * height;
+    const halfHeight = (el.offsetHeight * detail.scale) / 2;
+    const bounds = {
+      left: screenX - halfWidth,
+      right: screenX + halfWidth,
+      top: screenY - halfHeight - 3,
+      bottom: screenY + halfHeight + 3,
+    };
+    if (
+      mobile &&
+      priority !== 'selected' &&
+      priority !== 'primary' &&
+      occupied.some(
+        (other) =>
+          bounds.left < other.right &&
+          bounds.right > other.left &&
+          bounds.top < other.bottom &&
+          bounds.bottom > other.top,
+      )
+    ) {
+      el.style.display = 'none';
+      return;
+    }
+    if (mobile) occupied.push(bounds);
+    el.style.transform = `translate(${screenX}px,${screenY}px) translate(-50%,-50%) scale(${detail.scale})`;
     el.style.opacity = String(detail.opacity);
-    el.style.display =
-      visible &&
-      detail.visible &&
-      vector.z > -1 &&
-      vector.z < 1 &&
-      Math.abs(vector.x) < 0.94 &&
-      Math.abs(vector.y) < 0.92
-        ? ''
-        : 'none';
   }
-  const last = s.structuralReview && s.camera.preset === 'comparison' ? 1 : BUILDING.levels.length - 1;
+  const last =
+    s.structuralReview && s.camera.preset === 'comparison' ? 1 : BUILDING.levels.length - 1;
   const contextView = ['opposite', 'top'].includes(s.camera.preset);
+  // Reserve space for the active shop before placing lower-priority labels.
+  const unit = s.units.find((u) => u.id === (s.hoveredId || s.selectedId));
+  if (unit) {
+    const [x, , z] = unitPosition(unit);
+    place(
+      '[data-unit-label]',
+      [x, BASE_HEIGHT + unit.floor * FLOOR_HEIGHT + 3.7 + (s.exploded ? unit.floor * 5 : 0), z],
+      s.showUnitLabels &&
+        !s.interior &&
+        !contextView &&
+        unit.floor <= last &&
+        (s.floor === 'all' || s.floor === 'roof' || s.floor === unit.floor),
+      'selected',
+    );
+  }
   for (let f = 0; f < BUILDING.levels.length; f++)
     place(
       `[data-floor-label="${f}"]`,
@@ -220,20 +273,6 @@ export function projectSceneLabels(
         unit.id !== (s.hoveredId || s.selectedId) &&
         (s.floor === unit.floor || (s.floor === 'all' && [0, 4].includes(unit.slot))),
       'unit',
-    );
-  }
-  const unit = s.units.find((u) => u.id === (s.hoveredId || s.selectedId));
-  if (unit) {
-    const [x, , z] = unitPosition(unit);
-    place(
-      '[data-unit-label]',
-      [x, BASE_HEIGHT + unit.floor * FLOOR_HEIGHT + 3.7 + (s.exploded ? unit.floor * 5 : 0), z],
-      s.showUnitLabels &&
-        !s.interior &&
-        !contextView &&
-        unit.floor <= last &&
-        (s.floor === 'all' || s.floor === 'roof' || s.floor === unit.floor),
-      'selected',
     );
   }
 }

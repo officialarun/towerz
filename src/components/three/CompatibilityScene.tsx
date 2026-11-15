@@ -9,7 +9,12 @@ import { useExplorer } from '@/store/explorer';
 import { isMobileViewport } from '@/hooks/useIsMobile';
 import { createSiteModel } from '@/lib/three/site-model';
 import { syncSiteModel, stopSiteMotion } from '@/lib/three/site-state';
-import { sceneCameraPose, sceneCameraFov, projectSceneLabels, type SceneState } from '@/lib/three/camera';
+import {
+  sceneCameraPose,
+  sceneCameraFov,
+  projectSceneLabels,
+  type SceneState,
+} from '@/lib/three/camera';
 import { DEFAULT_MODEL_ZOOM, MODEL_FOV, MOBILE_MODEL_FOV } from '@/lib/presentation';
 import { SceneLabels } from './SceneLabels';
 export default function CompatibilityScene({ onRetry }: { onRetry: () => void }) {
@@ -78,6 +83,7 @@ export default function CompatibilityScene({ onRetry }: { onRetry: () => void })
             useExplorer.getState(),
             controls.target,
             labelReference,
+            isMobileViewport(),
           );
         if (controls.autoRotate) requestRender();
       } catch (error) {

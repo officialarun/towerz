@@ -124,14 +124,29 @@
     background: linear-gradient(180deg, #afc2cb, #d5d6c7 50%, #ada48b);
   }
   .site-explorer .site-marker {
-    font-size: calc(8px * var(--font-scale));
-    max-width: 210px;
+    font-size: 11px;
+    max-width: 150px;
     white-space: normal;
-    padding: 6px 8px;
+    padding: 3px 5px;
+    gap: 3px;
   }
   .site-explorer .site-unit-marker {
-    min-height: 28px;
-    font-size: calc(8px * var(--font-scale));
+    min-height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+  .site-explorer .scene-labels .floor-label {
+    min-width: 26px;
+    min-height: 26px;
+    padding: 3px 5px;
+  }
+  .site-explorer .scene-labels .floor-label strong {
+    font-size: 12px;
+  }
+  .site-explorer .entrance-label,
+  .site-explorer .unit-tooltip {
+    padding: 3px 6px;
+    font-size: 11px;
   }
   .site-explorer .scene-disclaimer {
     position: static;

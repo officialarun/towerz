@@ -175,6 +175,7 @@ function LabelProjection({
         s,
         target.current,
         reference.current,
+        isMobileViewport(),
       );
     }
   });
