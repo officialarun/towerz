@@ -22,7 +22,7 @@ import {
 import { useExplorer } from '@/store/explorer';
 import { isMobileViewport } from '@/hooks/useIsMobile';
 import { UnitPanel } from '@/components/leasing/UnitPanel';
-import { SiteContextControls } from './SiteContextControls';
+import { MobileLabelToggle, SiteContextControls } from './SiteContextControls';
 import { ModelOptions, ModelControlButton } from './ModelOptions';
 import { FloorPlan } from '@/components/floor-plan/FloorPlan';
 import { FinalLook } from './FinalLook';
@@ -130,6 +130,7 @@ export function Explorer({
           <div className="scene-viewport">
             <PlazaScene />
           </div>
+          <MobileLabelToggle />
           <div ref={navigation} className="model-navigation">
             <div
               className="camera-toolbar model-overlay-controls"

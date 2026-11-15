@@ -35,15 +35,27 @@ for (const mobile of [false, true]) {
     });
     await proposed.click();
     await expect(proposed).toHaveAttribute('aria-pressed', 'true');
-    await page.getByRole('button', { name: 'Context', exact: true }).click();
-    for (const name of ['Show Roads', 'Show Landmarks', 'Show Checkpoints', 'Show Unit Labels']) {
-      const button = page.getByRole('button', { name, exact: true });
-      await button.click();
-      await expect(button).toHaveAttribute('aria-pressed', 'false');
-      await button.click();
-      await expect(button).toHaveAttribute('aria-pressed', 'true');
+    if (mobile) {
+      await expect(page.getByRole('button', { name: 'Context', exact: true })).toBeHidden();
+      await page.getByRole('button', { name: 'Hide all labels', exact: true }).click();
+      await expect(page.locator('.scene-labels')).toBeHidden();
+      await expect(page.locator('.scene-labels > :visible')).toHaveCount(0);
+      await expect(page.getByRole('group', { name: 'Context layers' })).toHaveCount(0);
+      await expect(page.locator('.compatibility-canvas > svg')).toBeVisible();
+      await page.getByRole('button', { name: 'Show all labels', exact: true }).click();
+      await expect(page.locator('.scene-labels')).toBeVisible();
+      await expect(page.locator('[data-unit-marker="G-01"]')).toBeVisible();
+    } else {
+      await page.getByRole('button', { name: 'Context', exact: true }).click();
+      for (const name of ['Show Roads', 'Show Landmarks', 'Show Checkpoints', 'Show Unit Labels']) {
+        const button = page.getByRole('button', { name, exact: true });
+        await button.click();
+        await expect(button).toHaveAttribute('aria-pressed', 'false');
+        await button.click();
+        await expect(button).toHaveAttribute('aria-pressed', 'true');
+      }
+      await page.getByRole('button', { name: 'Context', exact: true }).click();
     }
-    await page.getByRole('button', { name: 'Context', exact: true }).click();
     await page.getByRole('button', { name: 'First Floor', exact: true }).click();
     await page.getByRole('button', { name: 'Floor Plan', exact: true }).click();
     await page.locator('[data-unit="S2-05"]').click();

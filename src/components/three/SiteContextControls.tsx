@@ -4,6 +4,7 @@ import { useId, useState } from 'react';
 import { Check, ChevronDown, Construction, Layers, Map, Store } from 'lucide-react';
 import { useExplorer } from '@/store/explorer';
 import type { ContextToggle } from '@/types';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import styles from './SiteContextControls.module.css';
 
 const options: { key: ContextToggle; label: string }[] = [
@@ -13,8 +14,26 @@ const options: { key: ContextToggle; label: string }[] = [
   { key: 'showUnitLabels', label: 'Show Unit Labels' },
 ];
 
+export function MobileLabelToggle() {
+  const visible = useExplorer((s) => s.mobileLabelsVisible);
+  const toggle = useExplorer((s) => s.toggleMobileLabels);
+  return (
+    <button
+      type="button"
+      className={styles.mobileLabels}
+      aria-label={visible ? 'Hide all labels' : 'Show all labels'}
+      title={visible ? 'Hide all labels' : 'Show all labels'}
+      aria-pressed={visible}
+      onClick={toggle}
+    >
+      <Map size={14} aria-hidden="true" />
+    </button>
+  );
+}
+
 export function SiteContextControls() {
   const s = useExplorer();
+  const mobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
   const panelId = useId();
   return (
@@ -57,7 +76,7 @@ export function SiteContextControls() {
         <span>Context</span>
         <ChevronDown size={12} />
       </button>
-      {expanded && (
+      {expanded && !mobile && (
         <div id={panelId} className={styles.contextPanel}>
           <p className={styles.panelHeading}>
             <Layers size={15} /> Scene layers

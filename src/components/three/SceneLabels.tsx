@@ -3,11 +3,13 @@ import type { RefObject } from 'react';
 import { MapPin } from 'lucide-react';
 import { useExplorer } from '@/store/explorer';
 import { SITE_CONTEXT } from '@/data/site';
+import { useIsMobile } from '@/hooks/useIsMobile';
 export function SceneLabels({ container }: { container: RefObject<HTMLDivElement | null> }) {
   const state = useExplorer();
+  const mobile = useIsMobile();
   const unit = state.units.find((u) => u.id === (state.hoveredId || state.selectedId));
   return (
-    <div className="scene-labels" ref={container}>
+    <div className="scene-labels" ref={container} hidden={mobile && !state.mobileLabelsVisible}>
       {state.floors.map((f) => (
         <button
           key={f.id}

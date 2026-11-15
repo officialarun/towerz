@@ -27,6 +27,7 @@ type State = {
   showLandmarks: boolean;
   showCheckpoints: boolean;
   showUnitLabels: boolean;
+  mobileLabelsVisible: boolean;
   exploded: boolean;
   roofVisible: boolean;
   autoRotate: boolean;
@@ -45,6 +46,7 @@ type State = {
   setBuildingView: (view: BuildingView) => void;
   toggleStructuralReview: () => void;
   toggleContext: (key: ContextToggle) => void;
+  toggleMobileLabels: () => void;
   toggleExploded: () => void;
   toggleRoof: () => void;
   toggleRotate: () => void;
@@ -73,6 +75,7 @@ export const useExplorer = create<State>()(
       showLandmarks: true,
       showCheckpoints: true,
       showUnitLabels: true,
+      mobileLabelsVisible: true,
       exploded: false,
       roofVisible: true,
       autoRotate: false,
@@ -130,6 +133,7 @@ export const useExplorer = create<State>()(
         } : {}),
       })),
       toggleContext: (key) => set((s) => ({ [key]: !s[key] })),
+      toggleMobileLabels: () => set((s) => ({ mobileLabelsVisible: !s.mobileLabelsVisible })),
       toggleExploded: () =>
         set((s) => ({
           exploded: !s.exploded,

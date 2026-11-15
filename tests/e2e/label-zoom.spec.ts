@@ -73,9 +73,21 @@ for (const renderer of ['desktop WebGL', 'mobile WebGL', 'mobile SVG']) {
     await expect.poll(ratio).toBeCloseTo(1, 1);
     await expect(marker).toBeVisible();
     await expect.poll(scale).toBeCloseTo(mobile ? 0.82 : 1, 1);
-    await page.getByRole('button', { name: 'Context', exact: true }).click();
-    await page.getByRole('button', { name: 'Show Unit Labels', exact: true }).click();
-    await expect(marker).toBeHidden();
+    if (mobile) {
+      await page.getByRole('button', { name: 'Hide all labels', exact: true }).click();
+      await expect(page.locator('.scene-labels')).toBeHidden();
+      await expect(selected).toBeHidden();
+      await expect(page.getByRole('group', { name: 'Context layers' })).toHaveCount(0);
+      await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+      await expect(page.locator('.scene-labels')).toBeHidden();
+      await page.getByRole('button', { name: 'Show all labels', exact: true }).click();
+      await expect(selected).toBeVisible();
+      await expect(marker).toBeVisible();
+    } else {
+      await page.getByRole('button', { name: 'Context', exact: true }).click();
+      await page.getByRole('button', { name: 'Show Unit Labels', exact: true }).click();
+      await expect(marker).toBeHidden();
+    }
     expect(errors).toEqual([]);
   });
 }
