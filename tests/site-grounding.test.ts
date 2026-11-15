@@ -150,6 +150,26 @@ describe('grounded site reconstruction', () => {
     expect(site.roads.visible).toBe(true);
     expect(site.unitMeshes.get('G-01')?.highlight.visible).toBe(true);
   });
+
+  it('embeds large readable lettering flat on the near carriageway in both renderers', () => {
+    for (const quality of ['enhanced', 'compatibility'] as const) {
+      const site = model(quality);
+      sync(site, state());
+      const lettering = site.scene.getObjectByName('sh15_road_lettering')!;
+      expect(lettering.userData.text).toBe('Ayodhya Raebareli Road SH15');
+      expect(lettering.parent).toBe(site.roads);
+      const bounds = new THREE.Box3().setFromObject(lettering);
+      expect(bounds.getSize(new THREE.Vector3()).x).toBeGreaterThan(25);
+      expect(bounds.getSize(new THREE.Vector3()).y).toBeLessThan(0.01);
+      expect(bounds.min.y).toBeGreaterThan(0.055);
+      expect(bounds.min.z).toBeGreaterThan(17.5);
+      expect(bounds.max.z).toBeLessThan(26.65);
+      for (const child of lettering.children) {
+        const normals = (child as THREE.Mesh).geometry.getAttribute('normal');
+        expect(normals.getY(0)).toBeCloseTo(1);
+      }
+    }
+  });
 });
 
 describe('location claims', () => {

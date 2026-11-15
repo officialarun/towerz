@@ -68,7 +68,7 @@ Final Look uses `public/kedarnath-plaza-final-look.png` as an edge-to-edge banne
 
 Three.js WebGL and the SVG compatibility renderer share `src/lib/three/site-model.ts` and `src/lib/three/site-state.ts`. Label detail scales with camera zoom through `src/lib/three/label-detail.ts`. Typography uses the shared 130% font scale; 3D starts at 100% zoom and floor plans at 120%.
 
-Roads, the median, neighbouring shops, trees, the small shrine and the opposite police-station compound are approximate context. The supplied images do not establish surveyed dimensions or verified rentable divisions. Unit areas, availability, finishes and tenant signage are illustrative.
+The front road has large painted “AYODHYA RAEBARELI ROAD” and “SH15” lettering in both 3D renderers. Roads, the median, neighbouring shops, trees, the small shrine and the opposite police-station compound are approximate context. The supplied images do not establish surveyed dimensions or verified rentable divisions. Unit areas, availability, finishes and tenant signage are illustrative.
 
 ## Structure
 

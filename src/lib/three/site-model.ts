@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import roadFontData from 'three/examples/fonts/helvetiker_bold.typeface.json';
 import { BASE_HEIGHT, FLOOR_HEIGHT, STATUS_COLORS, unitPosition } from '@/data/demo';
 import { BUILDING, ROOF_ELEVATION, slabOpenings, unitLayout, type PlanRect } from '@/data/building';
 import { circulationPlan, type StairFlight } from './circulation';
@@ -8,6 +10,7 @@ import type { ArchitecturalObject, Unit } from '@/types';
 type Point = [number, number, number];
 type BoxPart = { position: Point; size: Point; rotation?: Point };
 export type SiteQuality = 'enhanced' | 'compatibility';
+const roadFont = new FontLoader().parse(roadFontData);
 
 /**
  * A screenshot-guided reconstruction, not a surveyed architectural model.
@@ -1054,6 +1057,34 @@ export function createSiteModel(units: Unit[], quality: SiteQuality) {
   ).renderOrder = -90;
   box(roads, [0, 0.03, 17.5], [158, 0.025, 0.11], mat.white);
   box(roads, [0, 0.03, 38.3], [158, 0.025, 0.11], mat.white);
+  // Flat letter meshes also render in SVG and stay attached to the asphalt.
+  const roadLettering = group(roads, 'sh15_road_lettering');
+  roadLettering.userData.text = 'Ayodhya Raebareli Road SH15';
+  const roadPaint = ownMaterial(new THREE.MeshBasicMaterial({
+    color: '#f5ead0',
+    side: THREE.DoubleSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -1,
+  }));
+  for (const line of [
+    { text: 'AYODHYA RAEBARELI ROAD', width: 28, depth: 2.6, z: 20.4 },
+    { text: 'SH15', width: 8, depth: 2.4, z: 24.7 },
+  ]) {
+    const geometry = ownGeometry(new THREE.ShapeGeometry(
+      roadFont.generateShapes(line.text, 1), enhanced ? 4 : 2,
+    ));
+    geometry.computeBoundingBox();
+    const bounds = geometry.boundingBox!;
+    const scaleX = line.width / (bounds.max.x - bounds.min.x);
+    const scaleY = line.depth / (bounds.max.y - bounds.min.y);
+    geometry.translate(-(bounds.min.x + bounds.max.x) / 2, -bounds.min.y, 0);
+    geometry.scale(scaleX, scaleY, 1);
+    geometry.rotateX(-Math.PI / 2);
+    const lettering = mesh(roadLettering, geometry, roadPaint, [1.5, 0.105, line.z], [1, 1, 1]);
+    lettering.name = `road_paint_${line.text}`;
+    lettering.userData.ignorePicking = true;
+  }
   const markings: BoxPart[] = [];
   for (let x = -75; x < 76; x += 8.5)
     for (const z of [21.95, 33.75])
