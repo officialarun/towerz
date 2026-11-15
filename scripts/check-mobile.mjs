@@ -15,7 +15,7 @@ for (const width of [320, 390, 430]) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('http://localhost:3001', { waitUntil: 'networkidle', timeout: 120000 });
-  await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+  await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
   await expect(page.locator('.compatibility-canvas>svg')).toBeVisible();
   await page.screenshot({ path: `/tmp/plaza-mobile-home-${width}.png`, fullPage: true });
   await page.getByRole('button', { name: 'Floor Plan', exact: true }).click();

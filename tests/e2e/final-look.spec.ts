@@ -39,7 +39,7 @@ for (const mobile of [false, true]) {
     await final.getByRole('button', { name: 'Reset final image', exact: true }).click();
     await expect(final.locator('output')).toHaveText('100%');
     await expect(final).toContainText('Artist’s impression');
-    await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+    await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
     await expect(renderer).toBeVisible();
     const levels = page.locator('.floor-pills');
     for (const name of ['Semi-basement', 'Ground Floor', 'First Floor', 'Second Floor'])

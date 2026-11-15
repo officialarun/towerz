@@ -11,7 +11,7 @@ page.on('console', (message) => {
   if (message.type() === 'error') errors.push(message.text());
 });
 await page.goto('http://localhost:3001', { waitUntil: 'networkidle', timeout: 120000 });
-await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
 const svg = page.locator('.compatibility-canvas>svg');
 await expect(svg).toBeVisible();
 await expect(page.locator('.hero-copy')).toHaveCount(1);

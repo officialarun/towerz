@@ -14,7 +14,7 @@ test('WebGL-disabled browsers get interactive 3D without a duplicate hero', asyn
     } as typeof original;
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+  await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
   const svg = page.locator('.compatibility-canvas>svg');
   await expect(svg).toBeVisible();
   await expect(page.locator('canvas')).toHaveCount(0);
@@ -45,7 +45,7 @@ test('WebGL-disabled browsers get interactive 3D without a duplicate hero', asyn
 });
 test('a lost WebGL context switches to the compatibility renderer', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+  await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
   const canvas = page.locator('canvas');
   await expect(canvas).toBeVisible();
   // A canvas element exists before its WebGL context and recovery listener are initialized.

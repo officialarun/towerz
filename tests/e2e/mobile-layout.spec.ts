@@ -24,7 +24,7 @@ for (const viewport of [
       } as typeof original;
     });
     await page.goto('/');
-    await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+    await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
     await expect(page.locator('.compatibility-canvas>svg')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible();
     await page.getByRole('button', { name: 'Floor Plan', exact: true }).click();

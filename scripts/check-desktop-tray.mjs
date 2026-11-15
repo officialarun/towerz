@@ -13,7 +13,7 @@ for (const size of [
   for (const route of ['/', '/explore']) {
     await page.goto(`http://localhost:3001${route}`, { waitUntil: 'networkidle' });
     if (route === '/')
-      await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+      await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
     await page.locator('.camera-toolbar').waitFor();
     console.log(
       JSON.stringify({

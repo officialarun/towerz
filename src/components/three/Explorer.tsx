@@ -207,21 +207,6 @@ export function Explorer({
               finish along SH15.
             </span>
           </p>
-          <button
-            className="btn btn-primary hero-cta"
-            onClick={() => {
-              s.setFloor('all');
-              s.goCamera('road');
-              s.notify('Drag the building to rotate. Select any storefront to explore.');
-              if (isMobileViewport())
-                root.current
-                  ?.querySelector('.scene-area')
-                  ?.scrollIntoView({ block: 'start', behavior: 'smooth' });
-            }}
-          >
-            Explore in 3D <Box size={17} />
-            <ArrowUpRight size={16} />
-          </button>
           <Link className="shortlist-link" href="/shops">
             <span>View available shops</span>
             <ArrowUpRight size={13} />

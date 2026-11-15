@@ -28,7 +28,7 @@ try {
         image: await page.locator('.final-image-stage').boundingBox(),
       }),
     );
-    await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+    await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
     await page.locator('.scene-labels[data-label-zoom]').waitFor();
     await page.waitForTimeout(1600);
     await page.screenshot({

@@ -26,7 +26,7 @@ for (const mobile of [false, true]) {
   for (const route of ['/', '/explore']) {
     await page.goto(target + route, { waitUntil: 'networkidle', timeout: 120000 });
     if (route === '/')
-      await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+      await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
     await page.waitForTimeout(1600);
     const suffix = (mobile ? 'mobile' : 'desktop') + (route === '/' ? '-home' : '-explore');
     await page.screenshot({ path: `/tmp/site-${suffix}.png`, fullPage: mobile });

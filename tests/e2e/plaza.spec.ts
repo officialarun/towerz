@@ -5,7 +5,7 @@ test('3D controls, floor isolation, roof, exploded mode, synchronized plan selec
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/');
-  await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+  await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
   await expect(page.locator('canvas')).toBeVisible();
   await expect(page.getByText('Preparing your perspective')).toBeHidden();
   const tray = page.locator('.camera-toolbar');
@@ -115,7 +115,7 @@ test('shop pages work as direct static links and backend routes are absent', asy
 test('mobile navigation, floor plans, selections and layout fit', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+  await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
   await expect(page.locator('canvas')).toBeVisible();
   const width = await page.evaluate(() => ({
     scroll: document.documentElement.scrollWidth,

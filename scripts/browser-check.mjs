@@ -19,7 +19,7 @@ page.on('console', (m) => {
   if (m.type() === 'error') errors.push(m.text());
 });
 await page.goto('http://localhost:3001', { waitUntil: 'networkidle', timeout: 120000 });
-await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
 await page.waitForTimeout(5000);
 await page.screenshot({ path: '/tmp/plaza-desktop.png', fullPage: false });
 let picked = null;
@@ -57,7 +57,7 @@ await page.waitForTimeout(1600);
 await page.screenshot({ path: '/tmp/plaza-cutaway.png', fullPage: false });
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto('http://localhost:3001', { waitUntil: 'networkidle' });
-await page.getByRole('button', { name: 'Explore in 3D', exact: true }).click();
+await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
 await page.reload({ waitUntil: 'networkidle' });
 await page.waitForTimeout(3000);
 await page.screenshot({ path: '/tmp/plaza-mobile.png', fullPage: false });
