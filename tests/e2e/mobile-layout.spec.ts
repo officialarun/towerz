@@ -97,7 +97,7 @@ for (const viewport of [
     }
     await page.getByRole('button', { name: 'Enquire about this space', exact: true }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
-    await expect(page.getByRole('textbox', { name: 'Full name' })).toHaveCSS('font-size', '20.8px');
+    await expect(page.getByRole('textbox', { name: 'Full name' })).toHaveCSS('font-size', '16px');
     await page.getByRole('button', { name: 'Close dialog' }).click();
     await page.getByRole('button', { name: 'Explore interior', exact: true }).click();
     await expect(

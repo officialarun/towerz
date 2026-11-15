@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Bookmark, Trash2 } from 'lucide-react';
 import { useExplorer } from '@/store/explorer';
 import { Dialog } from '@/components/ui/dialog';
+import { EnquiryForm } from './EnquiryForm';
 import { FLOORS } from '@/data/demo';
 import { area, money } from '@/lib/utils';
 export function LeasingDialogs() {
@@ -97,108 +98,13 @@ export function LeasingDialogs() {
         )}
       </Dialog>
       <Dialog
+        className="enquiry-dialog"
         open={s.modal === 'enquiry'}
         onOpenChange={(v) => !v && s.setModal(null)}
         title="Let’s find your space."
         description="Find the space that suits your business."
       >
-        <form onSubmit={(event) => event.preventDefault()} className="enquiry-form">
-          <p className="enquiry-notice" role="status">
-            Online submissions are coming soon. Entries in this form are not sent or saved.
-          </p>
-          <div className="selected-tags">
-            {selected.length ? (
-              selected.map((u) => (
-                <span key={u.id}>
-                  {u.id} · {s.floors.find((f) => f.id === u.floor)?.label || FLOORS[u.floor].label}
-                </span>
-              ))
-            ) : (
-              <span>General leasing enquiry</span>
-            )}
-          </div>
-          <div className="form-grid">
-            <label>
-              Full name
-              <input
-                name="name"
-                autoComplete="name"
-                placeholder="Your full name"
-                required
-                minLength={2}
-                maxLength={100}
-              />
-            </label>
-            <label>
-              Mobile number
-              <input
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                placeholder="Your mobile number"
-                required
-                maxLength={22}
-              />
-            </label>
-            <label>
-              Email address
-              <input
-                name="email"
-                type="email"
-                autoComplete="email"
-                placeholder="you@business.com"
-                required
-                maxLength={254}
-              />
-            </label>
-            <label>
-              Business category
-              <select name="category" required defaultValue="">
-                <option value="" disabled>
-                  Select your business
-                </option>
-                {[
-                  'Retail',
-                  'Fashion & lifestyle',
-                  'Food & beverage',
-                  'Showroom',
-                  'Services',
-                  'Studio',
-                  'Other business',
-                ].map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <label>
-            Preferred visit date <span className="muted">(optional)</span>
-            <input name="visitDate" type="date" min={new Date().toISOString().slice(0, 10)} />
-          </label>
-          <label>
-            A little about your plans <span className="muted">(optional)</span>
-            <textarea
-              name="message"
-              placeholder="What are you looking for in your next space?"
-              rows={3}
-              maxLength={3000}
-            />
-          </label>
-          <label className="checkbox-label">
-            <input type="checkbox" name="consent" required />
-            <span>
-              I agree to be contacted about my enquiry and understand that submitting this form does
-              not reserve a unit.
-            </span>
-          </label>
-          <button type="submit" className="btn btn-primary submit-enquiry" disabled>
-            Submission coming soon
-          </button>
-          <p className="demo-note">
-            This is a demonstration property. Contact and location details will be supplied by the
-            property owner.
-          </p>
-        </form>
+        <EnquiryForm selected={selected} />
       </Dialog>
     </>
   );
