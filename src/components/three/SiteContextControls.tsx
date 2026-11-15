@@ -43,6 +43,7 @@ export function SiteContextControls() {
         if (event.key === 'Escape') setExpanded(false);
       }}
     >
+      <span className={styles.mobileCaption}>STYLE</span>
       <div className={styles.viewToggle} role="group" aria-label="Building presentation">
         <button
           type="button"

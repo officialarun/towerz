@@ -294,6 +294,75 @@
     width: 14px;
     height: 14px;
   }
+  .explorer.site-explorer .view-switch {
+    padding: 3px;
+    gap: 3px;
+    border-radius: 14px;
+    border-color: #e5d4b940;
+    background: #1b251fe8;
+    box-shadow: 0 3px 12px #0002;
+  }
+  .explorer.site-explorer .view-switch > button {
+    min-height: 44px;
+    padding: 0 5px;
+    flex-direction: row;
+    gap: 5px;
+    border-radius: 10px;
+    color: #b9c0b1;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .explorer.site-explorer .view-switch > button.active {
+    background: #f1e4ce;
+    color: #29271f;
+    font-weight: 600;
+  }
+  .explorer.site-explorer .view-switch > button svg {
+    width: 15px;
+    height: 15px;
+  }
+  .explorer.site-explorer .floor-navigation {
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: -6px;
+  }
+  .explorer.site-explorer .floor-nav-label {
+    display: block;
+    flex: 0 0 40px;
+    color: #a5b09f;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .explorer.site-explorer .floor-pills {
+    width: max-content;
+    padding: 0;
+    gap: 5px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+  .explorer.site-explorer .floor-pills > button {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    max-width: 30px;
+    border: 1px solid #c7b39133;
+    border-radius: 6px;
+    background: #252d2655;
+    color: #bbc0b1;
+    font-size: 11px;
+  }
+  .explorer.site-explorer .floor-pills > button.active {
+    border-color: #d1b78b99;
+    background: #d1b78b26;
+    color: #f5e7cd;
+  }
+  .explorer.site-explorer .floor-pills > button svg {
+    width: 14px;
+    height: 14px;
+  }
 }
 @media (max-height: 500px) and (pointer: coarse) and (min-width: 650px) {
   .explorer.site-explorer .scene-area,
