@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Bookmark, Box, Minus, Plus, RotateCcw } from 'lucide-react';
 import { useExplorer } from '@/store/explorer';
 
@@ -12,6 +12,11 @@ export function FinalLook() {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const stage = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
+  useLayoutEffect(() => {
+    stage.current
+      ?.closest('.site-explorer')
+      ?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }, []);
   function changeZoom(next: number) {
     setZoom(Math.min(2.5, Math.max(1, next)));
     setPan({ x: 0, y: 0 });

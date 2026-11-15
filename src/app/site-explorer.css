@@ -345,9 +345,16 @@ body:has(.site-explorer.view-final) .site-header {
     transform: none;
     margin: 0;
   }
+  .final-image-stage::before {
+    content: '';
+    position: absolute;
+    inset: -24px;
+    background: url('/kedarnath-plaza-final-look.png') 25% center / cover;
+    filter: blur(20px) brightness(0.65);
+  }
   .final-image-transform img {
-    object-fit: contain;
-    object-position: center 35%;
+    object-fit: cover;
+    object-position: 25% 45%;
   }
   .final-image-tools {
     margin: 0 16px 8px;
@@ -386,6 +393,32 @@ body:has(.site-explorer.view-final) .site-header {
   .site-explorer.view-final .scene-area.scene-inactive {
     width: 100%;
     margin: 0;
+  }
+}
+@media (max-width: 760px) and (min-height: 501px) {
+  .final-image-transform {
+    inset: calc(var(--final-header-height) + 60px) 0 auto;
+    height: clamp(220px, 42svh, 430px);
+    mask-image: linear-gradient(180deg, transparent, #000 6%, #000 86%, transparent);
+  }
+  .final-image-tools {
+    position: absolute;
+    top: calc(var(--final-header-height) + 76px);
+    right: 10px;
+    flex-direction: column;
+    margin: 0;
+    padding: 3px;
+    gap: 0;
+    border-radius: 22px;
+  }
+  .final-image-tools button {
+    width: 36px;
+    height: 36px;
+  }
+  .final-image-tools output {
+    min-width: 36px;
+    font-size: 11px;
+    line-height: 24px;
   }
 }
 @media (max-height: 650px) and (max-width: 760px) {
