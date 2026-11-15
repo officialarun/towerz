@@ -122,8 +122,10 @@ test('mobile navigation, floor plans, selections and layout fit', async ({ page 
     window: window.innerWidth,
   }));
   expect(width.scroll).toBeLessThanOrEqual(width.window);
-  await page.getByRole('button', { name: 'Open menu' }).click();
-  await page.getByRole('link', { name: 'Floor Plans', exact: true }).click();
+  await page
+    .getByRole('navigation', { name: 'Main navigation' })
+    .getByRole('link', { name: 'Floor Plans', exact: true })
+    .click();
   await expect(page.getByRole('heading', { name: 'Semi-basement', exact: true })).toBeVisible();
   await page.locator('[data-unit="G-01"]').click();
   await expect(page.getByRole('complementary', { name: 'Details for shop G-01' })).toBeVisible();

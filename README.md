@@ -4,6 +4,8 @@ A Next.js / React / TypeScript website for the plaza opposite Inayat Nagar Polic
 
 The landing page opens directly in the interactive 3D model. Final Look remains available as a full-viewport image banner, alongside the Floor Plan tab.
 
+On mobile, a fixed bottom navigation bar provides direct access to Home, 3D, Plans, Shops, Amenities and Location, with the current page highlighted.
+
 ## Run locally
 
 Requires Node.js 20.9 or newer.

@@ -5,6 +5,7 @@ import './globals.css';
 import './explorer-mobile.css';
 import './site-explorer.css';
 import './model-controls.css';
+import './mobile-navigation.css';
 export const metadata: Metadata = {
   title: { default: 'The Plaza — Inayat Nagar, Ayodhya', template: '%s · The Plaza' },
   description:

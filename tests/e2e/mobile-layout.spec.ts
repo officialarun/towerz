@@ -26,7 +26,8 @@ for (const viewport of [
     await page.goto('/');
     await page.getByRole('button', { name: '3D Model', exact: true }).first().click();
     await expect(page.locator('.compatibility-canvas>svg')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Open menu' })).toHaveCount(0);
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeInViewport();
     await page.getByRole('button', { name: 'Floor Plan', exact: true }).click();
     await expect(page.locator('.plan-content')).toHaveAttribute('transform', /scale\(1\.2\)/);
     await page.getByRole('button', { name: 'Zoom in floor plan', exact: true }).click();
