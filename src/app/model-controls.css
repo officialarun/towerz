@@ -227,9 +227,22 @@
     bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
+    gap: 5px;
+  }
+  .site-explorer .model-navigation .model-control {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 9px;
+  }
+  .site-explorer .model-navigation .model-control svg {
+    width: 16px;
+    height: 16px;
   }
   .site-explorer .model-navigation > .camera-toolbar.model-overlay-controls {
-    gap: 4px;
+    gap: 3px;
+    padding: 4px;
+    border-radius: 14px;
   }
   .site-explorer .model-menu-trigger .model-control::after {
     left: auto;

@@ -85,8 +85,8 @@ for (const viewport of [
       expect(control.right).toBeLessThanOrEqual(layout.stage.right);
       expect(control.top).toBeGreaterThanOrEqual(layout.stage.top);
       expect(control.bottom).toBeLessThanOrEqual(layout.stage.bottom);
-      expect(control.width).toBeGreaterThanOrEqual(44);
-      expect(control.height).toBeGreaterThanOrEqual(44);
+      expect(control.width).toBeGreaterThanOrEqual(36);
+      expect(control.height).toBeGreaterThanOrEqual(36);
     }
     for (const button of layout.actions) {
       expect(button.left).toBeGreaterThanOrEqual(layout.panel.left);
