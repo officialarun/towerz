@@ -37,7 +37,9 @@ Content changes take effect after rebuilding the static site. All 32 shop detail
 
 Run `npm run build` and publish the contents of `out/` to a static host. Keep the exported directory structure, including each route’s `index.html` and the `_next/` asset directory.
 
-For Vercel, the included `vercel.json` uses `npm run build` and publishes `out/`. It also defines response headers at the hosting layer. There are no serverless functions or runtime credentials to configure. Other hosts can serve the same output as ordinary static files.
+For Vercel, import the repository with the **Next.js** framework preset and leave the **Output Directory** override disabled. Vercel detects the Next.js build and its static export automatically. The included `vercel.json` runs `npm run build` and defines response headers at the hosting layer.
+
+There are no serverless functions or runtime credentials to configure. Other static hosts can serve the contents of `out/` directly.
 
 Next Image serves the supplied image files directly, so an image optimization server is not required. Deployment itself is not performed automatically.
 
