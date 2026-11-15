@@ -249,13 +249,50 @@
     right: 0;
     transform: none;
   }
+  .site-explorer .model-options-panel {
+    width: 190px;
+    padding: 6px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .site-explorer .model-options-heading {
+    margin-bottom: 4px;
+    padding-left: 6px;
+    font-size: 11px;
+  }
   .site-explorer .model-options-heading > button {
-    width: 44px;
-    height: 44px;
+    width: 28px;
+    height: 28px;
+  }
+  .site-explorer .model-options-scroll {
+    max-height: 76px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    scrollbar-width: thin;
+    scrollbar-color: #c7b39199 transparent;
+    scrollbar-gutter: stable;
+  }
+  .site-explorer .model-view-options,
+  .site-explorer .model-extra-options {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+  .site-explorer .model-extra-options {
+    margin-top: 6px;
+    padding-top: 6px;
   }
   .site-explorer .model-view-options > button,
   .site-explorer .model-extra-options > button {
-    min-height: 44px;
+    min-height: 36px;
+    padding: 5px 6px;
+    gap: 6px;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+  .site-explorer .model-options-panel button > svg {
+    width: 14px;
+    height: 14px;
   }
 }
 @media (max-height: 500px) and (pointer: coarse) and (min-width: 650px) {

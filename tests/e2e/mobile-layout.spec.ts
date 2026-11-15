@@ -110,12 +110,30 @@ for (const viewport of [
     await expect(page.locator('.camera-toolbar button')).toHaveCount(5);
     await expect(page.getByRole('button', { name: /full.?screen/i })).toHaveCount(0);
     await page.getByRole('button', { name: 'Controls', exact: true }).click();
+    const menu = page.getByRole('dialog', { name: 'Model controls' });
+    await expect(
+      menu.getByRole('button', { name: 'Photo comparison', exact: true }),
+    ).toBeInViewport();
+    await expect(menu.getByRole('button', { name: 'Road view', exact: true })).toBeInViewport();
+    await expect(
+      menu.getByRole('button', { name: 'Front view', exact: true }),
+    ).not.toBeInViewport();
+    await menu.getByRole('button', { name: 'Front view', exact: true }).scrollIntoViewIfNeeded();
     await expect(page.getByRole('button', { name: 'Front view', exact: true })).toBeInViewport();
     await page.getByRole('button', { name: 'Front view', exact: true }).click();
     await expect(page.getByRole('button', { name: 'Front view', exact: true })).toHaveAttribute(
       'aria-pressed',
       'true',
     );
+    await menu.getByRole('button', { name: 'Reset camera', exact: true }).scrollIntoViewIfNeeded();
+    await expect(menu.getByRole('button', { name: 'Reset camera', exact: true })).toBeInViewport();
+    await menu.getByRole('button', { name: 'Reset camera', exact: true }).click();
+    expect(
+      await menu.locator('.model-options-scroll').evaluate((element) => element.scrollTop),
+    ).toBeGreaterThan(0);
+    await expect(
+      menu.getByRole('button', { name: 'Close controls', exact: true }),
+    ).toBeInViewport();
     await page.getByRole('button', { name: 'Close controls', exact: true }).click();
     await expect(page.getByRole('dialog', { name: 'Model controls' })).toHaveCount(0);
     expect(errors).toEqual([]);

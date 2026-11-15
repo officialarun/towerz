@@ -177,55 +177,61 @@ export function ModelOptions({
                 <X size={17} />
               </button>
             </div>
-            <div className="model-view-options" role="group" aria-label="Camera views">
-              {viewpoints.map(({ id, label, icon: Icon }) => (
+            <div className="model-options-scroll">
+              <div className="model-view-options" role="group" aria-label="Camera views">
+                {viewpoints.map(({ id, label, icon: Icon }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    aria-pressed={s.camera.preset === id}
+                    onClick={() => s.goCamera(id)}
+                  >
+                    <Icon size={16} />
+                    <span>{label}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="model-extra-options" role="group" aria-label="Building controls">
                 <button
-                  key={id}
                   type="button"
-                  aria-pressed={s.camera.preset === id}
-                  onClick={() => s.goCamera(id)}
+                  aria-pressed={s.structuralReview}
+                  onClick={s.toggleStructuralReview}
                 >
-                  <Icon size={16} />
-                  <span>{label}</span>
+                  <Building2 size={16} />
+                  <span>Grey structure</span>
                 </button>
-              ))}
-            </div>
-            <div className="model-extra-options" role="group" aria-label="Building controls">
-              <button type="button" aria-pressed={s.structuralReview} onClick={s.toggleStructuralReview}>
-                <Building2 size={16} />
-                <span>Grey structure</span>
-              </button>
-              <button
-                type="button"
-                aria-pressed={s.view === 'split'}
-                onClick={() => {
-                  s.setView(s.view === 'split' ? '3d' : 'split');
-                  close();
-                }}
-              >
-                <Split size={16} />
-                <span>{s.view === 'split' ? '3D only' : 'Split View'}</span>
-              </button>
-              <button type="button" aria-pressed={s.exploded} onClick={s.toggleExploded}>
-                <SquareStack size={16} />
-                <span>{s.exploded ? 'Assemble floors' : 'Explode floors'}</span>
-              </button>
-              <button type="button" onClick={s.toggleRoof}>
-                {s.roofVisible ? <EyeOff size={16} /> : <Eye size={16} />}
-                <span>{s.roofVisible ? 'Hide roof' : 'Restore roof'}</span>
-              </button>
-              <button
-                type="button"
-                aria-pressed={s.mode === 'architecture'}
-                onClick={() => s.setMode(s.mode === 'leasing' ? 'architecture' : 'leasing')}
-              >
-                {s.mode === 'leasing' ? <ScanLine size={16} /> : <Store size={16} />}
-                <span>{s.mode === 'leasing' ? 'Architecture mode' : 'Leasing mode'}</span>
-              </button>
-              <button type="button" onClick={() => s.goCamera('reset')}>
-                <RotateCcw size={16} />
-                <span>Reset camera</span>
-              </button>
+                <button
+                  type="button"
+                  aria-pressed={s.view === 'split'}
+                  onClick={() => {
+                    s.setView(s.view === 'split' ? '3d' : 'split');
+                    close();
+                  }}
+                >
+                  <Split size={16} />
+                  <span>{s.view === 'split' ? '3D only' : 'Split View'}</span>
+                </button>
+                <button type="button" aria-pressed={s.exploded} onClick={s.toggleExploded}>
+                  <SquareStack size={16} />
+                  <span>{s.exploded ? 'Assemble floors' : 'Explode floors'}</span>
+                </button>
+                <button type="button" onClick={s.toggleRoof}>
+                  {s.roofVisible ? <EyeOff size={16} /> : <Eye size={16} />}
+                  <span>{s.roofVisible ? 'Hide roof' : 'Restore roof'}</span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={s.mode === 'architecture'}
+                  onClick={() => s.setMode(s.mode === 'leasing' ? 'architecture' : 'leasing')}
+                >
+                  {s.mode === 'leasing' ? <ScanLine size={16} /> : <Store size={16} />}
+                  <span>{s.mode === 'leasing' ? 'Architecture mode' : 'Leasing mode'}</span>
+                </button>
+                <button type="button" onClick={() => s.goCamera('reset')}>
+                  <RotateCcw size={16} />
+                  <span>Reset camera</span>
+                </button>
+              </div>
             </div>
           </div>,
           container.current,
