@@ -346,7 +346,8 @@ body:has(.site-explorer.view-final) .site-header {
     margin: 0;
   }
   .final-image-transform img {
-    object-position: 35% center;
+    object-fit: contain;
+    object-position: center 35%;
   }
   .final-image-tools {
     margin: 0 16px 8px;

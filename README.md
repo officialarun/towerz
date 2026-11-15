@@ -64,7 +64,7 @@ The Structural Frame and Proposed 3D views use the same geometry. Floor isolatio
 
 `src/data/building.ts` contains the configurable elevations, column grid, forecourt, stairs, walkway and shop footprints. `src/lib/three/circulation.ts` connects the flights and landings. See [structural reconstruction notes](docs/structural-reconstruction.md) for reference observations, provisional dimensions, route connections and verification. Existing G/S1/S2 inventory references remain stable; the new S3 references describe the added Second Floor.
 
-Final Look uses `public/kedarnath-plaza-final-look.png` as an edge-to-edge banner. Navigation, image zoom/reset, text and enquiry actions overlay the image. Portrait screens use a plaza-focused crop. Switching between Final Look and 3D preserves the selected shop and camera.
+Final Look uses `public/kedarnath-plaza-final-look.png` as an edge-to-edge banner. Navigation, image zoom/reset, text and enquiry actions overlay the image. Mobile screens fit the full image so the neighbouring buildings remain visible. Switching between Final Look and 3D preserves the selected shop and camera.
 
 Three.js WebGL and the SVG compatibility renderer share `src/lib/three/site-model.ts` and `src/lib/three/site-state.ts`. Label detail scales with camera zoom through `src/lib/three/label-detail.ts`. Typography uses the shared 130% font scale; 3D starts at 100% zoom and floor plans at 120%.
 
